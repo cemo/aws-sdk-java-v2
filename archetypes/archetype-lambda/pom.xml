@@ -20,14 +20,67 @@
     <parent>
         <artifactId>archetypes</artifactId>
         <groupId>software.amazon.awssdk</groupId>
-        <version>2.10.71-SNAPSHOT</version>
+        <version>2.11.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>archetype-lambda</artifactId>
     <packaging>maven-archetype</packaging>
     <name>AWS Java SDK :: Archetype Lambda</name>
     <description>
-        The AWS SDK for Java - Maven archetype for Java lambda function using AWS Java SDK v2
+        The AWS SDK for Java - Maven archetype for Java lambda function using AWS Java SDK 2.x
     </description>
 
+    <properties>
+        <maven.archetype.version>3.1.2</maven.archetype.version>
+        <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
+    </properties>
+
+    <build>
+        <!-- Filtering the resource properties to get ${project.version} from archetype metadata.
+        See https://stackoverflow.com/a/22300149 -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>META-INF/maven/archetype-metadata.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>META-INF/maven/archetype-metadata.xml</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>${maven.archetype.version}</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-archetype-plugin</artifactId>
+                <version>${maven.archetype.version}</version>
+                <configuration>
+                    <noLog>true</noLog>
+                    <ignoreEOLStyle>true</ignoreEOLStyle>
+                    <skip>${skip.unit.tests}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -27,6 +27,10 @@
     <requiredProperty key="handlerClassName">
       <defaultValue>App</defaultValue>
     </requiredProperty>
+    <requiredProperty key="javaSdkVersion">
+      <defaultValue>${project.version}</defaultValue>
+      <validationRegex>\d+\.\d+.\d+</validationRegex>
+    </requiredProperty>
     <requiredProperty key="service">
     </requiredProperty>
     <requiredProperty key="httpClient">
