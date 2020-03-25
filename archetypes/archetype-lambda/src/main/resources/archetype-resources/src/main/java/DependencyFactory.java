@@ -17,7 +17,7 @@ public class DependencyFactory {
     /**
      * @return an instance of ${serviceClientClassName}
      */
-    public static ${serviceClientClassName} ${service}Client() {
+    public static ${serviceClientClassName} ${serviceClientVariable}Client() {
         return ${serviceClientClassName}.builder()
                        .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
                        .region(Region.${regionEnum})

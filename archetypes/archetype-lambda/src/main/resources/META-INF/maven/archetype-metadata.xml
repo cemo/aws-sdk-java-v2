@@ -20,6 +20,7 @@
       <includes>
         <include>.gitignore</include>
         <include>template.yaml</include>
+        <include>README.md</include>
       </includes>
     </fileSet>
   </fileSets>
@@ -39,6 +40,10 @@
     </requiredProperty>
     <requiredProperty key="region">
      <validationRegex>^\w+-(\w+-)+\d+$</validationRegex>
+    </requiredProperty>
+    <!-- Required to pass the netty-open-ssl-version property from parent pom to velocity-->
+    <requiredProperty key="nettyOpenSslVersion">
+      <defaultValue>${netty-open-ssl-version}</defaultValue>
     </requiredProperty>
   </requiredProperties>
 </archetype-descriptor>

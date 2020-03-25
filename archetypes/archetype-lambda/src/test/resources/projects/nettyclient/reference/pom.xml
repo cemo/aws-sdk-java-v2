@@ -31,6 +31,7 @@
         <aws.java.sdk.version>2.11.0</aws.java.sdk.version>
         <aws.lambda.java.version>1.2.0</aws.lambda.java.version>
         <junit5.version>5.4.2</junit5.version>
+        <netty.openssl.version>2.0.29.Final</netty.openssl.version>
     </properties>
 
     <dependencyManagement>
@@ -66,6 +67,13 @@
             <artifactId>netty-nio-client</artifactId>
         </dependency>
 
+        <!-- Adding netty-tcnative dependency so that netty async client uses openSSL as sslProvider if supported
+        See https://github.com/aws/aws-sdk-java-v2/blob/master/docs/BestPractices.md#use-openssl-for-netty-async-client -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>${netty.openssl.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-lambda-java-core</artifactId>

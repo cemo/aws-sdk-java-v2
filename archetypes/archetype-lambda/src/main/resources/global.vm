@@ -1,14 +1,12 @@
 ## global variables used by the project
+#parse ("serviceMapping.vm")
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-## TODO: there is no easy way to map service module artifactId to the client name derived the service name
-## As a workaround: mapping the common service here
-#if( $service == 'dynamodb')
-    #set ( $service = 'dynamoDb')
-#end
-#set ( $servicePackage = $service.toLowerCase())
-#set( $serviceClientPrefix = $service.substring(0,1).toUpperCase() + $service.substring(1))
+## map the serviceId to service package and service client class name
+#set ( $servicePackage = $service)
+#set( $serviceClientPrefix = $serviceMapping[$service])
+#set ( $serviceClientVariable = $serviceClientPrefix.substring(0,1).toLowerCase() + $serviceClientPrefix.substring(1))
 #set( $regionEnum = $region.replace("-", "_").toUpperCase() )
 ## map the client module name to the client class name and pacakge name
 #if( $httpClient == 'url-connection-client')
@@ -24,6 +22,3 @@
     #set ($httpClientPackageName = 'nio.netty.' + $httpClientClassName)
     #set ($serviceClientClassName = $serviceClientPrefix + 'AsyncClient')
 #end
-## map the serviceId to service package and service client class name
-#set( $servicePackage = $service.toLowerCase())
-#set( $serviceClientPrefix = $service.substring(0,1).toUpperCase() + $service.substring(1))
