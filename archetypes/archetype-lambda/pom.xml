@@ -35,6 +35,15 @@
         <exec-maven-plugin.version>1.6.0</exec-maven-plugin.version>
     </properties>
 
+    <dependencies>
+        <!-- Depends on the artifacts of all services to generate serviceMapping.vm -->
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>${awsjavasdk.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <!-- Filtering the resource properties to get ${project.version} from archetype metadata.
         See https://stackoverflow.com/a/22300149 -->
@@ -64,6 +73,23 @@
 
         <plugins>
             <plugin>
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>map-service-to-client-prefix</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>${basedir}/src/main/resources/map-service-to-client-prefix</executable>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-archetype-plugin</artifactId>
                 <version>${maven.archetype.version}</version>
                 <configuration>
@@ -80,6 +106,16 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!-- Skip dependency analysis because it's unnecessary for this module -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>
